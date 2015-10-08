@@ -38,6 +38,7 @@ namespace charutils
 
     void	LoadExpTable();
     void	LoadChar(CCharEntity* PChar);
+    void        LoadSpells(CCharEntity* PChar);
     void	LoadInventory(CCharEntity* PChar);
     void    LoadEquip(CCharEntity* PChar);
 
@@ -134,7 +135,8 @@ namespace charutils
     void	SaveZonesVisited(CCharEntity* PChar);				        // сохраняем посещенные зоны
     void	SaveKeyItems(CCharEntity* PChar);					        // сохраняем ключевые предметы
     void	SaveCharInventoryCapacity(CCharEntity* PChar);              // Save Character inventory capacity
-    void	SaveSpells(CCharEntity* PChar);						        // сохраняем выученные заклинания
+    void	SaveSpell(CCharEntity* PChar, uint16 spellID);						        // сохраняем выученные заклинания
+    void	DeleteSpell(CCharEntity* PChar, uint16 spellID);
     void	SaveLearnedAbilities(CCharEntity* PChar);					// saved learned abilities (corsair rolls)
     void    SaveTitles(CCharEntity* PChar);						        // сохраняем заслуженные звания
     void	SaveCharStats(CCharEntity* PChar);					        // сохраняем флаги, текущие значения жихней, маны и профессий
