@@ -24,6 +24,7 @@
 #include "../../common/showmsg.h"
 
 #include "lua_mobskill.h"
+#include "../mobskill.h"
 
 
 /************************************************************************
@@ -154,7 +155,15 @@ inline int32 CLuaMobSkill::getTP(lua_State* L)
 {
     DSP_DEBUG_BREAK_IF(m_PLuaMobSkill == nullptr);
 
-    lua_pushnumber(L, (float)m_PLuaMobSkill->getTP() / 10.0f);
+    lua_pushnumber(L, (float)m_PLuaMobSkill->getTP());
+    return 1;
+}
+
+inline int32 CLuaMobSkill::getHPP(lua_State* L)
+{
+    DSP_DEBUG_BREAK_IF(m_PLuaMobSkill == nullptr);
+
+    lua_pushinteger(L, m_PLuaMobSkill->getHPP());
     return 1;
 }
 
@@ -177,6 +186,7 @@ Lunar<CLuaMobSkill>::Register_t CLuaMobSkill::methods[] =
   LUNAR_DECLARE_METHOD(CLuaMobSkill,getID),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,getTotalTargets),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,getTP),
+    LUNAR_DECLARE_METHOD(CLuaMobSkill,getHPP),
     LUNAR_DECLARE_METHOD(CLuaMobSkill,setSkillchain),
     {nullptr,nullptr}
 };

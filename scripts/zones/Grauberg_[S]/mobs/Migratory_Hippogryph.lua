@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Grauberg[S]
--- NPC:  Migratory_Hippogryph
+--  MOB: Migratory_Hippogryph
 -----------------------------------
 
 require("scripts/globals/titles");
@@ -16,8 +16,8 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
-	if (killer:getQuestStatus(JEUNO,THE_UNFINISHED_WALTZ) == QUEST_ACCEPTED and killer:getVar("QuestStatus_DNC_AF1")==3) then
-		killer:setVar("QuestStatus_DNC_AF1", 4);
-	end
+function onMobDeath(mob, player, isKiller)
+    if (player:getQuestStatus(JEUNO,THE_UNFINISHED_WALTZ) == QUEST_ACCEPTED and player:getVar("QuestStatus_DNC_AF1")==3) then
+        player:setVar("QuestStatus_DNC_AF1", 4);
+    end
 end;

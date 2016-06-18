@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Halvung
--- NPC:  Gurfurlur the Menacing
+--  MOB: Gurfurlur the Menacing
 -----------------------------------
 
 require("scripts/globals/titles");
@@ -57,6 +57,6 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
-    killer:addTitle(TROLL_SUBJUGATOR);
+function onMobDeath(mob, player, isKiller)
+    player:addTitle(TROLL_SUBJUGATOR);
 end;

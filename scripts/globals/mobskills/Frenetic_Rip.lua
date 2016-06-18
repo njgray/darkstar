@@ -11,7 +11,7 @@ require("scripts/globals/monstertpmoves");
 ---------------------------------------------
 
 function onMobSkillCheck(target,mob,skill)
-    if (mob:AnimationSub() == 1 and mob:getFamily() == 165) then -- Imps - without horn
+    if (mob:AnimationSub() == 0 and mob:getFamily() == 165) then -- Imps - with horn
         return 1;
     else
         return 0;
@@ -19,11 +19,11 @@ function onMobSkillCheck(target,mob,skill)
 end;
 
 function onMobWeaponSkill(target, mob, skill)
-	local numhits = 3;
-	local accmod = 1;
-	local dmgmod = 1.2;
-	local info = MobPhysicalMove(mob,target,skill,numhits,accmod,dmgmod,TP_DMG_VARIES,1,2,3);
-	local dmg = MobFinalAdjustments(info.dmg,mob,skill,target,MOBSKILL_PHYSICAL,MOBPARAM_BLUNT,info.hitslanded);
-	target:delHP(dmg);
-	return dmg;
+    local numhits = 3;
+    local accmod = 1;
+    local dmgmod = 1.2;
+    local info = MobPhysicalMove(mob,target,skill,numhits,accmod,dmgmod,TP_DMG_VARIES,1,2,3);
+    local dmg = MobFinalAdjustments(info.dmg,mob,skill,target,MOBSKILL_PHYSICAL,MOBPARAM_BLUNT,info.hitslanded);
+    target:delHP(dmg);
+    return dmg;
 end;

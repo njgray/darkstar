@@ -3,9 +3,9 @@
 --  NPC: Alastor Antlion
 -----------------------------------
 
-require("scripts/globals/titles");
 require("scripts/globals/status");
 require("scripts/globals/magic");
+mixins = {require("scripts/mixins/families/antlion_ambush")}
 
 -----------------------------------
 -- onMobInitialize Action
@@ -25,21 +25,19 @@ end;
 -----------------------------------
 
 function onMobSpawn(mob)
-    mob:setTP(100);
 end;
 
 -----------------------------------
 -- onMobEngaged
 -----------------------------------
-function onMobEngaged(mob, killer)
-    mob:useMobAbility(22); -- Pit Ambush
+function onMobEngaged(mob, target)
 end;
 
 -----------------------------------
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob, killer)
+function onMobDeath(mob, player, isKiller)
 end;
 
 -----------------------------------
@@ -56,7 +54,7 @@ function onAdditionalEffect(mob, player)
         if (mob:getMainLvl() > player:getMainLvl()) then
             duration = duration + (mob:getMainLvl() - player:getMainLvl())
         end
-        utils.clamp(duration,1,45);
+        duration = utils.clamp(duration,1,45);
         duration = duration * resist;
         if (not player:hasStatusEffect(EFFECT_PETRIFICATION)) then
             player:addStatusEffect(EFFECT_PETRIFICATION, 1, 0, duration);

@@ -1,6 +1,6 @@
 -----------------------------------
 -- Area: Dynamis Valkurm
--- NPC:  Goblin Replica
+--  MOB: Goblin Replica
 
 -----------------------------------
 package.loaded["scripts/zones/Dynamis-Valkurm/TextIDs"] = nil;
@@ -14,7 +14,7 @@ require("scripts/zones/Dynamis-Valkurm/TextIDs");
 -----------------------------------
 
 function onMobSpawn(mob)
-	mob:setMobMod(MOBMOD_SUPERLINK, mob:getShortID());
+    mob:setMobMod(MOBMOD_SUPERLINK, mob:getShortID());
 end;
 
 -----------------------------------
@@ -29,14 +29,14 @@ end;
 -- onMobDeath
 -----------------------------------
 
-function onMobDeath(mob,killer)
-	
-	local mobID = mob:getID();
-	if (mobID ==16937283) then --hp		
-		killer:messageBasic(024,(killer:getMaxHP()-killer:getHP()));
-	    killer:restoreHP(3000);
-	elseif (mobID ==16937284) then --mp
-		killer:messageBasic(025,(killer:getMaxMP()-killer:getMP()));
-		killer:restoreMP(3000);
-	end
+function onMobDeath(mob, player, isKiller)
+    
+    local mobID = mob:getID();
+    if (mobID ==16937283) then --hp        
+        player:messageBasic(024,(player:getMaxHP()-player:getHP()));
+        player:restoreHP(3000);
+    elseif (mobID ==16937284) then --mp
+        player:messageBasic(025,(player:getMaxMP()-player:getMP()));
+        player:restoreMP(3000);
+    end
 end;

@@ -372,7 +372,6 @@ const Merit_t* CMeritPoints::GetMeritByIndex(uint16 index)
 	return  &merits[index];
 }
 
-
 /************************************************************************
 *                                                                       *
 *  Получаем указатель на искомый merit                                  *
@@ -381,9 +380,11 @@ const Merit_t* CMeritPoints::GetMeritByIndex(uint16 index)
 
 Merit_t* CMeritPoints::GetMeritPointer(MERIT_TYPE merit)
 {
-    DSP_DEBUG_BREAK_IF(!IsMeritExist(merit));
-
-    return &Categories[GetMeritCategory(merit)][GetMeritID(merit)];
+    if (IsMeritExist(merit))
+    {
+        return &Categories[GetMeritCategory(merit)][GetMeritID(merit)];
+    }
+    return nullptr;
 }
 
 /************************************************************************
@@ -396,8 +397,6 @@ void CMeritPoints::RaiseMerit(MERIT_TYPE merit)
 {
     Merit_t* PMerit = GetMeritPointer(merit);
 
-    ShowDebug("Merit ID: %d\n", merit);
-
     if (m_MeritPoints >= PMerit->next)
     {
         m_MeritPoints -= PMerit->next;
@@ -407,7 +406,7 @@ void CMeritPoints::RaiseMerit(MERIT_TYPE merit)
         {
             if (charutils::addSpell(m_PChar, PMerit->spellid))
             {
-                charutils::SaveSpells(m_PChar);
+                charutils::SaveSpell(m_PChar, PMerit->spellid);
                 m_PChar->pushPacket(new CCharSpellsPacket(m_PChar));
             }
         }
@@ -433,7 +432,7 @@ void CMeritPoints::LowerMerit(MERIT_TYPE merit)
     {
         if (charutils::delSpell(m_PChar, PMerit->spellid))
         {
-            charutils::SaveSpells(m_PChar);
+            charutils::DeleteSpell(m_PChar, PMerit->spellid);
             m_PChar->pushPacket(new CCharSpellsPacket(m_PChar));
         }
     }
@@ -461,13 +460,16 @@ int32 CMeritPoints::GetMeritValue(MERIT_TYPE merit, CCharEntity* PChar)
     Merit_t* PMerit = GetMeritPointer(merit);
 	uint8 meritValue = 0;
 
-    if (PMerit->catid < 5 || (PMerit->jobs & (1 << (PChar->GetMJob() - 1)) && PChar->GetMLevel() >= 75))
-        meritValue = dsp_min(PMerit->count, cap[PChar->GetMLevel()]);
+    if (PMerit)
+    {
+        if (PMerit->catid < 5 || (PMerit->jobs & (1 << (PChar->GetMJob() - 1)) && PChar->GetMLevel() >= 75))
+            meritValue = dsp_min(PMerit->count, cap[PChar->GetMLevel()]);
 
-    if (PMerit->catid == 8 && PChar->GetMLevel() < 96)
-        meritValue = 0;
+        if (PMerit->catid == 25 && PChar->GetMLevel() < 96) // categoryID 25 is for merit weaponskills, which only apply if the player is lv 96+
+            meritValue = 0;
 
-	meritValue *= PMerit->value;
+        meritValue *= PMerit->value;
+    }
 
 	return meritValue;
 }
